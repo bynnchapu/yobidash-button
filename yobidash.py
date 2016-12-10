@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 import os
 import sys
+import slackweb
 
 from scapy.all import *
 
 DASH_BUTTON_MAC_ADDR = 'SPECIFY MAC ADDR OF DASH BUTTON'
+SLACK_WEB_HOOK_URL = 'SPECIFY YOUR SLACK WEB HOOK URL'
+SLACK_MESSAGE = 'Dash button is pusshed!'
 
 def exit_if_user_run_this_script_as_general_user():
     if not os.getuid() == 0:
@@ -27,6 +30,11 @@ def found_dash_button():
     print sniff(prn=sniff_found_dash_button, filter="arp", store=0, count=10)
 
 
+def post_slack_notify():
+    slack = slackweb.Slack(SLACK_WEB_HOOK_URL)
+    slack.notify(text=SLACK_MESSAGE)
+
+
 def sniff_handle_dash_button(packet):
     arp_packet = packet[ARP]
 
@@ -34,6 +42,7 @@ def sniff_handle_dash_button(packet):
         if arp_packet.hwdst == '00:00:00:00:00:00':
             if arp_packet.hwsrc == DASH_BUTTON_MAC_ADDR:
                 print 'Dash button is pusshed!'
+                post_slack_notify()
 
 
 def handle_dash_button():
