@@ -2,12 +2,14 @@
 import os
 import sys
 import slackweb
+import pygame.mixer
 
 from scapy.all import *
 
 DASH_BUTTON_MAC_ADDR = 'SPECIFY MAC ADDR OF DASH BUTTON'
 SLACK_WEB_HOOK_URL = 'SPECIFY YOUR SLACK WEB HOOK URL'
 SLACK_MESSAGE = 'Dash button is pusshed!'
+SOUND_PATH = './config/sound.mp3'
 
 def exit_if_user_run_this_script_as_general_user():
     if not os.getuid() == 0:
@@ -35,6 +37,12 @@ def post_slack_notify():
     slack.notify(text=SLACK_MESSAGE)
 
 
+def play_bell():
+    pygame.mixer.init()
+    pygame.mixer.music.load(SOUND_PATH)
+    pygame.mixer.music.play(1)
+
+
 def sniff_handle_dash_button(packet):
     arp_packet = packet[ARP]
 
@@ -43,6 +51,7 @@ def sniff_handle_dash_button(packet):
             if arp_packet.hwsrc == DASH_BUTTON_MAC_ADDR:
                 print 'Dash button is pusshed!'
                 post_slack_notify()
+                play_bell()
 
 
 def handle_dash_button():
