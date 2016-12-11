@@ -62,6 +62,8 @@ def handle_dash_button():
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Yobidash Button')
 
+    parser.add_argument('--find-dash', action='store_true',
+                        help='Found MAC address of Dash Button.')
     parser.add_argument('--mac-addr', type=str,
                         help='Specify MAC Address of Dash Button.')
     parser.add_argument('--sound-path', type=str,
@@ -77,3 +79,6 @@ def parse_arguments():
 if __name__ == '__main__':
     exit_if_user_run_this_script_as_general_user()
     args = parse_arguments()
+
+    if args.find_dash:
+        found_dash_button()
