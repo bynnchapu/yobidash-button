@@ -3,6 +3,7 @@ import os
 import sys
 import slackweb
 import pygame.mixer
+import argparse
 
 from scapy.all import *
 
@@ -58,5 +59,21 @@ def handle_dash_button():
     print sniff(prn=sniff_handle_dash_button, filter="arp", store=0, count=0)
 
 
+def parse_arguments():
+    parser = argparse.ArgumentParser(description='Yobidash Button')
+
+    parser.add_argument('--mac-addr', type=str,
+                        help='Specify MAC Address of Dash Button.')
+    parser.add_argument('--sound-path', type=str,
+                        help='Specify path for bell sound')
+    parser.add_argument('--disable-slack', action='store_true',
+                        help='Disable posting to slack.')
+    parser.add_argument('--disable-sound', action='store_true',
+                        help='Disable play sound.')
+
+    return parser.parse_args()
+
+
 if __name__ == '__main__':
     exit_if_user_run_this_script_as_general_user()
+    args = parse_arguments()
