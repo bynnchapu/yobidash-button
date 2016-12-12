@@ -118,3 +118,5 @@ if __name__ == '__main__':
 
     if args.find_dash:
         found_dash_button()
+    else:
+        handle_dash_button()
