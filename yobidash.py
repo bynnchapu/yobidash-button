@@ -76,9 +76,33 @@ def parse_arguments():
     return parser.parse_args()
 
 
+def set_behavior_variable(args):
+    global DISABLE_SLACK
+    global DISABLE_SOUND
+    global DASH_BUTTON_MAC_ADDR
+    global SOUND_PATH
+
+    if args.disable_slack:
+        DISABLE_SLACK = True
+    else:
+        DISABLE_SLACK = False
+
+    if args.disable_sound:
+        DISABLE_SOUND = True
+    else:
+        DISABLE_SOUND = False
+
+    if args.mac_addr:
+        DASH_BUTTON_MAC_ADDR = args.mac_addr
+
+    if args.sound_path:
+        SOUND_PATH = args.sound_path
+
+
 if __name__ == '__main__':
     exit_if_user_run_this_script_as_general_user()
     args = parse_arguments()
+    set_behavior_variable(args)
 
     if args.find_dash:
         found_dash_button()
