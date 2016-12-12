@@ -51,8 +51,12 @@ def sniff_handle_dash_button(packet):
         if arp_packet.hwdst == '00:00:00:00:00:00':
             if arp_packet.hwsrc == DASH_BUTTON_MAC_ADDR:
                 print 'Dash button is pusshed!'
-                post_slack_notify()
-                play_bell()
+
+                if not DISABLE_SLACK:
+                    post_slack_notify()
+
+                if not DISABLE_SOUND:
+                    play_bell()
 
 
 def handle_dash_button():
