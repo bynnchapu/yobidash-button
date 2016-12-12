@@ -66,6 +66,10 @@ def parse_arguments():
                         help='Found MAC address of Dash Button.')
     parser.add_argument('--mac-addr', type=str,
                         help='Specify MAC Address of Dash Button.')
+    parser.add_argument('--slack-web-hook-url', type=str,
+                        help='Specify URL for slack web hook')
+    parser.add_argument('--slack-message', type=str,
+                        help='Specify message for slack')
     parser.add_argument('--sound-path', type=str,
                         help='Specify path for bell sound')
     parser.add_argument('--disable-slack', action='store_true',
@@ -80,6 +84,8 @@ def set_behavior_variable(args):
     global DISABLE_SLACK
     global DISABLE_SOUND
     global DASH_BUTTON_MAC_ADDR
+    global SLACK_WEB_HOOK_URL
+    global SLACK_MESSAGE
     global SOUND_PATH
 
     if args.disable_slack:
@@ -94,6 +100,12 @@ def set_behavior_variable(args):
 
     if args.mac_addr:
         DASH_BUTTON_MAC_ADDR = args.mac_addr
+
+    if args.slack_web_hook_url:
+        SLACK_WEB_HOOK_URL = args.slack_web_hook_url
+
+    if args.slack_message:
+        SLACK_MESSAGE = args.slack_mesasge
 
     if args.sound_path:
         SOUND_PATH = args.sound_path
